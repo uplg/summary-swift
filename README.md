@@ -89,6 +89,7 @@ xcodebuild -project summary.xcodeproj -scheme summary -destination 'platform=iOS
 
 ## 🎯 Usage
 
+0. **Using the Backend**: The app uses the backend found in https://github.com/uplg/video-summarize for easy yt-dlp usage. Make sure to set up the backend following the instructions in the repository.
 1. **Launch the App**: Open Summary on your iOS device
 2. **Enter YouTube URL**: Paste any YouTube video URL in the input field
 3. **Start Processing**: Tap the process button to begin transcription
@@ -102,7 +103,7 @@ The app follows a sophisticated processing pipeline:
 
 1. **URL Validation**: Verify YouTube URL format and accessibility
 2. **Metadata Extraction**: Retrieve video title, duration, and thumbnail
-3. **Audio Download**: Extract and download audio from YouTube video (using the backend found in https://github.com/uplg/video-summarize for easy yt-dlp usage)
+3. **Audio Download**: Extract and download audio from YouTube video
 4. **Model Loading**: Initialize WhisperKit and MLX models (first run only)
 5. **Transcription**: Convert audio to text using Whisper model
 6. **Summarization**: Generate summary using Gemma 3n model
