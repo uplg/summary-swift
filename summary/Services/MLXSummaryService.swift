@@ -170,9 +170,9 @@ enum SummaryError: Error, LocalizedError {
     var errorDescription: String? {
         switch self {
         case .generationFailed(let message):
-            return "Échec de la génération du résumé: \(message)"
+            return "Error: Failed to generate summary: \(message)"
         case .invalidInput:
-            return "Texte d'entrée invalide"
+            return "Invalid input text"
         }
     }
 }
