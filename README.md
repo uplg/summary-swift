@@ -89,7 +89,7 @@ xcodebuild -project summary.xcodeproj -scheme summary -destination 'platform=iOS
 
 ## 🎯 Usage
 
-0. **Using the Backend**: The app uses the backend found in https://github.com/uplg/video-summarize for easy yt-dlp usage. Make sure to set up the backend following the instructions in the repository.
+0. **Start the Backend**: The app use the FastAPI backend found in [Video-summarize](https://github.com/uplg/video-summarize) for easy yt-dlp usage. Make sure to set it up following the instructions in the repository.
 1. **Launch the App**: Open Summary on your iOS device
 2. **Enter YouTube URL**: Paste any YouTube video URL in the input field
 3. **Start Processing**: Tap the process button to begin transcription
@@ -99,7 +99,7 @@ xcodebuild -project summary.xcodeproj -scheme summary -destination 'platform=iOS
 
 ## 🔄 Processing Pipeline
 
-The app follows a sophisticated processing pipeline:
+The app follows this processing pipeline:
 
 1. **URL Validation**: Verify YouTube URL format and accessibility
 2. **Metadata Extraction**: Retrieve video title, duration, and thumbnail
@@ -115,13 +115,6 @@ The app follows a sophisticated processing pipeline:
 - **No Data Collection**: No personal data is sent to external servers
 - **Secure Storage**: Transcriptions stored locally using SwiftData
 - **Cache Management**: Automatic cleanup of temporary files
-
-## 🎨 Design Philosophy
-
-- **User-Centric**: Intuitive interface designed for ease of use
-- **Performance-First**: Optimized for smooth operation on all devices
-- **Accessibility**: Full support for VoiceOver and accessibility features
-- **Modern iOS Design**: Follows Apple's Human Interface Guidelines
 
 ## 🚧 Development Status
 
