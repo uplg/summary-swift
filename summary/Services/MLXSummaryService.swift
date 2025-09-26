@@ -28,14 +28,13 @@ class MLXSummaryService: ObservableObject {
     func generateSummary(from text: String) async throws -> String {
         isGenerating = true
         
-        // Charger le modèle s'il n'est pas encore chargé
         if modelContainer == nil {
             await loadModel()
         }
         
         guard let modelContainer else { 
             isGenerating = false
-            throw SummaryError.generationFailed("Modèle Gemma non chargé")
+            throw SummaryError.generationFailed("Gemma model not loaded")
         }
         
         defer {
@@ -49,13 +48,10 @@ class MLXSummaryService: ObservableObject {
             let result = try await modelContainer.perform { context in
                 let prompt = await createGemmaPrompt(from: text)
                 
-                // Créer l'entrée utilisateur
                 var userInput = UserInput(prompt: prompt)
                 
-                // Créer l'entrée LM
                 let input = try await context.processor.prepare(input: userInput)
                 
-                // Générer la sortie
                 return try MLXLMCommon.generate(input: input, parameters: .init(), context: context) { tokens in
                     let text = context.tokenizer.decode(tokens: tokens)
                     
@@ -64,8 +60,7 @@ class MLXSummaryService: ObservableObject {
                         self.progress = min(Double(tokens.count) / 200.0, 0.9)
                     }
                     
-                    // Arrêter si on détecte la fin du résumé ou si c'est trop long
-                    if text.contains("</résumé>") || text.contains("[FIN]") || tokens.count > 200 {
+                    if text.contains("</summary>") || text.contains("[END]") || tokens.count > 200 {
                         return .stop
                     }
                     
@@ -75,18 +70,17 @@ class MLXSummaryService: ObservableObject {
             
             progress = 1.0
             
-            // Extraire le résumé de la réponse de Gemma
             let summary = extractSummaryFromGemmaResponse(output)
             
             if summary.isEmpty {
-                throw SummaryError.generationFailed("Gemma n'a pas pu générer un résumé valide")
+                throw SummaryError.generationFailed("Gemma could not generate a valid summary")
             }
             
             return summary
             
         } catch {
-            lastError = SummaryError.generationFailed("Erreur Gemma: \(error.localizedDescription)")
-            throw SummaryError.generationFailed("Erreur lors de la génération avec Gemma: \(error.localizedDescription)")
+            lastError = SummaryError.generationFailed("Gemma error: \(error.localizedDescription)")
+            throw SummaryError.generationFailed("Error during generation with Gemma: \(error.localizedDescription)")
         }
     }
     
@@ -95,10 +89,7 @@ class MLXSummaryService: ObservableObject {
     }
     
     private var modelFactory: ModelFactory {
-        // If the model is in LLM model registry then it is a LLM
         let isLLM = LLMModelFactory.shared.modelRegistry.models.contains { $0.name == modelConfiguration.name }
-
-        // If the model is a LLM, select LLMFactory. If not, select VLM factory
         return LLMModelFactory.shared
     }
     
@@ -108,9 +99,8 @@ class MLXSummaryService: ObservableObject {
             isModelLoaded = false
             statusService.updateGemmaStatus(.downloading)
             
-            // Load the model with the appropriate factory
             modelContainer = try await modelFactory.loadContainer(
-                // hub: hub, // Comment out here if you want to use default download directory.
+                // hub: hub,
                 configuration: modelConfiguration
             ) { progress in
                 Task { @MainActor in
@@ -128,7 +118,7 @@ class MLXSummaryService: ObservableObject {
             self.downloadProgress = Progress(totalUnitCount: 1)
             statusService.updateGemmaStatus(.loaded)
         } catch {
-            let errorMessage = "Erreur Gemma: \(error.localizedDescription)"
+            let errorMessage = "Gemma error: \(error.localizedDescription)"
             lastError = SummaryError.generationFailed(errorMessage)
             statusService.updateGemmaStatus(.error(errorMessage))
         }
@@ -136,48 +126,33 @@ class MLXSummaryService: ObservableObject {
     }
     
     private func createGemmaPrompt(from text: String) -> String {
-        // Prompt optimisé pour Gemma 3n en français
         return """
-        <bos>Tu es un assistant IA spécialisé dans la création de résumés. Ton rôle est de créer un résumé concis et informatif du texte suivant.
+        <bos>You are a specialized AI assistant designed to create concise and informative summaries. Your task is to create a summary of the following text in the original language.
 
         Instructions:
-        - Crée un résumé en français de 3-4 phrases maximum
-        - Capture les points clés et les informations essentielles
-        - Utilise un langage clair et accessible
-        - Termine par </résumé>
+        - Create a summary in the ORIGINAL language of 3-4 sentences maximum
+        - Capture the key points and essential information
+        - Use clear and accessible language
+        - End with </summary>
 
-        Texte à résumer:
-        \(text.prefix(3000))
+        Text to summarize:
+        \(text)
 
-        Résumé:
+        Summary:
         """
     }
     
     private func extractSummaryFromGemmaResponse(_ response: String) -> String {
-        // Nettoyer la réponse de Gemma
         var cleanedResponse = response
         
-        // Supprimer les balises de fin
-        cleanedResponse = cleanedResponse.replacingOccurrences(of: "</résumé>", with: "")
-        cleanedResponse = cleanedResponse.replacingOccurrences(of: "[FIN]", with: "")
+        cleanedResponse = cleanedResponse.replacingOccurrences(of: "</summary>", with: "")
+        cleanedResponse = cleanedResponse.replacingOccurrences(of: "[END]", with: "")
         cleanedResponse = cleanedResponse.replacingOccurrences(of: "<eos>", with: "")
         
-        // Supprimer les espaces en trop
         cleanedResponse = cleanedResponse.trimmingCharacters(in: .whitespacesAndNewlines)
         
-        // Si la réponse est vide ou trop courte, retourner un résumé par défaut
-        if cleanedResponse.isEmpty || cleanedResponse.count < 20 {
-            return "Résumé généré par Gemma non disponible."
-        }
-        
-        // Limiter la longueur du résumé
-        if cleanedResponse.count > 500 {
-            let truncated = String(cleanedResponse.prefix(500))
-            if let lastSentence = truncated.lastIndex(of: ".") {
-                cleanedResponse = String(truncated[...lastSentence])
-            } else {
-                cleanedResponse = truncated + "..."
-            }
+        if cleanedResponse.isEmpty {
+            return "Summary generated by Gemma not available."
         }
         
         return cleanedResponse
@@ -185,5 +160,19 @@ class MLXSummaryService: ObservableObject {
     
     deinit {
         modelContainer = nil
+    }
+}
+
+enum SummaryError: Error, LocalizedError {
+    case generationFailed(String)
+    case invalidInput
+    
+    var errorDescription: String? {
+        switch self {
+        case .generationFailed(let message):
+            return "Échec de la génération du résumé: \(message)"
+        case .invalidInput:
+            return "Texte d'entrée invalide"
+        }
     }
 }

@@ -2,8 +2,6 @@
 //  TranscriptionDetailView.swift
 //  summary
 //
-//  Created by Assistant on 23/09/2025.
-//
 
 import SwiftUI
 
@@ -15,11 +13,11 @@ struct TranscriptionDetailView: View {
     var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
-                // Header avec informations de la vidéo
+                // Header with video information
                 VStack(spacing: 12) {
                     HStack {
                         VStack(alignment: .leading, spacing: 4) {
-                            Text(transcription.videoTitle.isEmpty ? "Vidéo YouTube" : transcription.videoTitle)
+                            Text(transcription.videoTitle.isEmpty ? "YouTube Video" : transcription.videoTitle)
                                 .font(.title2)
                                 .fontWeight(.bold)
                                 .lineLimit(2)
@@ -53,23 +51,21 @@ struct TranscriptionDetailView: View {
                 .background(Color(.systemGray6))
                 
                 // Segmented Control
-                Picker("Contenu", selection: $selectedTab) {
-                    Text("Résumé").tag(0)
+                Picker("Content", selection: $selectedTab) {
+                    Text("Summary").tag(0)
                     Text("Transcription").tag(1)
                 }
                 .pickerStyle(SegmentedPickerStyle())
                 .padding()
                 
-                // Contenu
                 TabView(selection: $selectedTab) {
-                    // Onglet Résumé
                     ScrollView {
                         VStack(alignment: .leading, spacing: 16) {
                             if transcription.summary.isEmpty {
                                 EmptyContentView(
                                     icon: "doc.text",
-                                    title: "Résumé non disponible",
-                                    message: "Le résumé n'a pas encore été généré ou a échoué."
+                                    title: "Summary not available",
+                                    message: "The summary has not been generated yet or has failed."
                                 )
                             } else {
                                 Text(transcription.summary)
@@ -82,14 +78,13 @@ struct TranscriptionDetailView: View {
                     }
                     .tag(0)
                     
-                    // Onglet Transcription
                     ScrollView {
                         VStack(alignment: .leading, spacing: 16) {
                             if transcription.transcriptionText.isEmpty {
                                 EmptyContentView(
                                     icon: "waveform",
-                                    title: "Transcription non disponible",
-                                    message: "La transcription n'a pas encore été générée ou a échoué."
+                                    title: "Transcription not available",
+                                    message: "The transcription has not been generated yet or has failed."
                                 )
                             } else {
                                 Text(transcription.transcriptionText)
@@ -104,11 +99,11 @@ struct TranscriptionDetailView: View {
                 }
                 .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
             }
-            .navigationTitle("Détails")
+            .navigationTitle("Details")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Fermer") {
+                    Button("Close") {
                         dismiss()
                     }
                 }
@@ -116,8 +111,8 @@ struct TranscriptionDetailView: View {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     ShareLink(
                         item: shareContent,
-                        subject: Text("Transcription YouTube"),
-                        message: Text("Transcription de: \(transcription.videoTitle)")
+                        subject: Text("YouTube Transcription"),
+                        message: Text("Transcription of: \(transcription.videoTitle)")
                     ) {
                         Image(systemName: "square.and.arrow.up")
                     }
@@ -127,17 +122,17 @@ struct TranscriptionDetailView: View {
     }
     
     private var shareContent: String {
-        var content = "Transcription YouTube\n"
-        content += "Titre: \(transcription.videoTitle)\n"
+        var content = "YouTube Transcription\n"
+        content += "Title: \(transcription.videoTitle)\n"
         content += "URL: \(transcription.youtubeURL)\n"
         content += "Date: \(transcription.createdAt.formatted(date: .abbreviated, time: .shortened))\n\n"
         
         if !transcription.summary.isEmpty {
-            content += "RÉSUMÉ:\n\(transcription.summary)\n\n"
+            content += "SUMMARY:\n\(transcription.summary)\n\n"
         }
         
         if !transcription.transcriptionText.isEmpty {
-            content += "TRANSCRIPTION COMPLÈTE:\n\(transcription.transcriptionText)"
+            content += "FULL TRANSCRIPTION:\n\(transcription.transcriptionText)"
         }
         
         return content
@@ -173,9 +168,9 @@ struct EmptyContentView: View {
 #Preview {
     let sampleTranscription = VideoTranscription(
         youtubeURL: "https://www.youtube.com/watch?v=example",
-        videoTitle: "Exemple de vidéo YouTube",
-        transcriptionText: "Ceci est un exemple de transcription...",
-        summary: "Ceci est un exemple de résumé...",
+        videoTitle: "Example YouTube Video",
+        transcriptionText: "This is an example transcription...",
+        summary: "This is an example summary...",
         duration: 300
     )
     sampleTranscription.processingStatus = .completed

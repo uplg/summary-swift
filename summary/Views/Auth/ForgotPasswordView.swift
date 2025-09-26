@@ -68,7 +68,7 @@ struct ForgotPasswordView: View {
                 // Logo section with liquid glass
                 LiquidGlassCard(blur: 12, opacity: 0.06, cornerRadius: 18, shadowRadius: 8) {
                     VStack(spacing: 15) {
-                        Text("漫画")
+                        Text("Uplg")
                             .font(.system(size: 45, weight: .bold, design: .serif))
                             .foregroundStyle(
                                 LinearGradient(
@@ -90,11 +90,11 @@ struct ForgotPasswordView: View {
 
                 // Title and description
                 VStack(spacing: 10) {
-                    Text("Mot de passe oublié")
+                    Text("Forgot Password")
                         .font(.system(size: 28, weight: .semibold))
                         .foregroundColor(.white)
 
-                    Text("Entrez votre adresse email pour recevoir un lien de réinitialisation")
+                    Text("Enter your email address to receive a reset link")
                         .font(.system(size: 16, weight: .regular))
                         .foregroundColor(.white.opacity(0.8))
                         .multilineTextAlignment(.center)
@@ -105,7 +105,7 @@ struct ForgotPasswordView: View {
                 // Email input section
                 VStack(spacing: 20) {
                     AppTextField(
-                        placeholder: "Votre adresse email",
+                        placeholder: "Your email address",
                         text: $email,
                         icon: "envelope.fill",
                         keyboardType: .emailAddress,
@@ -123,7 +123,7 @@ struct ForgotPasswordView: View {
                                     .progressViewStyle(CircularProgressViewStyle(tint: .white))
                                     .scaleEffect(0.8)
                             } else {
-                                Text("Envoyer le lien")
+                                Text("Send Link")
                                     .font(.system(size: 18, weight: .semibold))
                             }
                         }
@@ -154,8 +154,8 @@ struct ForgotPasswordView: View {
 
     private func sendResetEmail() {
         guard isValidEmail else {
-            alertTitle = "Erreur"
-            alertMessage = "Veuillez entrer une adresse email valide"
+            alertTitle = "Error"
+            alertMessage = "Please enter a valid email address"
             showingAlert = true
             return
         }

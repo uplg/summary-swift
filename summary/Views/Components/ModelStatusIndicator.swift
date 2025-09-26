@@ -2,8 +2,6 @@
 //  ModelStatusIndicator.swift
 //  summary
 //
-//  Created by Assistant on 23/09/2025.
-//
 
 import SwiftUI
 
@@ -13,11 +11,10 @@ struct ModelStatusIndicator: View {
     
     var body: some View {
         VStack(spacing: 8) {
-            // Indicateur compact
             HStack {
                 statusIcon
                 
-                Text(statusService.allModelsReady ? "Modèles prêts" : "Initialisation...")
+                Text(statusService.allModelsReady ? "Models ready" : "Initializing...")
                     .font(.caption)
                     .foregroundColor(statusService.allModelsReady ? .green : .orange)
                 
@@ -45,7 +42,6 @@ struct ModelStatusIndicator: View {
                 }
             }
             
-            // Vue détaillée (expandable)
             if isExpanded {
                 VStack(alignment: .leading, spacing: 8) {
                     modelStatusRow(
@@ -121,24 +117,24 @@ struct ModelStatusIndicator: View {
         Group {
             switch status {
             case .loaded:
-                Text("Prêt")
+                Text("Ready")
                     .foregroundColor(.green)
             case .loading:
-                Text("Chargement...")
+                Text("Loading...")
                     .foregroundColor(.orange)
             case .downloading:
                 if let progress = progress {
                     Text("\(Int(progress * 100))%")
                         .foregroundColor(.blue)
                 } else {
-                    Text("Téléchargement...")
+                    Text("Downloading...")
                         .foregroundColor(.blue)
                 }
             case .error(let message):
-                Text("Erreur")
+                Text("Error")
                     .foregroundColor(.red)
             case .notLoaded:
-                Text("Non chargé")
+                Text("Not loaded")
                     .foregroundColor(.gray)
             }
         }

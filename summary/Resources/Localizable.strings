@@ -1,0 +1,109 @@
+/* Authentication */
+"email" = "Email";
+"password" = "Password";
+"login" = "Login";
+"register" = "Register";
+"forgot_password" = "Forgot Password";
+"connection" = "Connection";
+"error" = "Error";
+"information" = "Information";
+"profile" = "Profile";
+"account" = "Account";
+
+/* Navigation */
+"history" = "History";
+"transcription" = "Transcription";
+"settings" = "Settings";
+"dashboard" = "Dashboard";
+"bookmarks" = "Bookmarks";
+
+/* Actions */
+"delete" = "Delete";
+"cancel" = "Cancel";
+"confirm" = "Confirm";
+"save" = "Save";
+"download" = "Download";
+"upload" = "Upload";
+"search" = "Search";
+"add" = "Add";
+"edit" = "Edit";
+"share" = "Share";
+
+/* Status */
+"loading" = "Loading";
+"completed" = "Completed";
+"in_progress" = "In Progress";
+"pending" = "Pending";
+"failed" = "Failed";
+"success" = "Success";
+"available" = "Available";
+"unavailable" = "Unavailable";
+"downloading" = "Downloading";
+"processing" = "Processing";
+"ready" = "Ready";
+"error_occurred" = "An error occurred";
+
+/* Filter Options */
+"all" = "All";
+"completed_filter" = "Completed";
+"pending_filter" = "Pending";
+
+/* Notifications */
+"notifications" = "Notifications";
+"support" = "Support";
+
+/* YouTube */
+"youtube_extraction_error" = "YouTube extraction error";
+"youtube_download_error" = "YouTube download error";
+"network_error" = "Network error";
+
+/* Transcription */
+"transcription_completed" = "Transcription completed";
+"transcription_failed" = "Transcription failed";
+"transcription_in_progress" = "Transcription in progress";
+"transcription_ready" = "Transcription ready";
+"transcription_error" = "Transcription error";
+"transcription_service_unavailable" = "Transcription service unavailable";
+
+/* Model Status */
+"model_downloading" = "Model downloading";
+"model_ready" = "Model ready";
+"model_error" = "Model error";
+"model_unavailable" = "Model unavailable";
+
+/* Audio */
+"audio_download_completed" = "Audio download completed";
+"audio_download_failed" = "Audio download failed";
+"audio_processing" = "Audio processing";
+
+/* Summary */
+"summary_generation_completed" = "Summary generation completed";
+"summary_generation_failed" = "Summary generation failed";
+"summary_in_progress" = "Summary in progress";
+
+/* Email */
+"email_sent_successfully" = "Email sent successfully";
+"email_sending_failed" = "Email sending failed";
+
+/* Registration */
+"registration_successful" = "Registration successful";
+"registration_failed" = "Registration failed";
+
+/* General */
+"welcome" = "Welcome";
+"thank_you" = "Thank you";
+"congratulations" = "Congratulations";
+"attention" = "Attention";
+"warning" = "Warning";
+"confirmation" = "Confirmation";
+"yes" = "Yes";
+"no" = "No";
+"ok" = "OK";
+"close" = "Close";
+"back" = "Back";
+"next" = "Next";
+"previous" = "Previous";
+"finish" = "Finish";
+"continue" = "Continue";
+"retry" = "Retry";
+"refresh" = "Refresh";

@@ -37,7 +37,6 @@ class CacheManager {
     // MARK: - Cache Management
     
     func clearAllCache() {
-        // Récupérer toutes les clés et supprimer celles qui commencent par nos préfixes
         let allKeys = userDefaults.dictionaryRepresentation().keys
         
         for key in allKeys {
@@ -82,21 +81,17 @@ class CacheManager {
     }
     
     func cleanOldCache(olderThanDays days: Int = 30) {
-        // let cutoffDate = Date().addingTimeInterval(-TimeInterval(days * 24 * 60 * 60))
         let allKeys = userDefaults.dictionaryRepresentation().keys
         
         for key in allKeys {
             if key.hasPrefix(videoInfoCacheKey) || key.hasPrefix(transcriptionCacheKey) {
-                // Pour une implémentation plus sophistiquée, on pourrait stocker les timestamps
-                // Pour l'instant, on se contente de nettoyer si le cache devient trop volumineux
                 continue
             }
         }
         
-        // Si le cache dépasse 50MB, on nettoie les plus anciens
         let maxCacheSize = 50 * 1024 * 1024 // 50MB
         if getCacheMemoryUsage() > maxCacheSize {
-            clearOldestEntries(keepCount: 20) // Garder seulement les 20 plus récents
+            clearOldestEntries(keepCount: 20)
         }
     }
     
@@ -104,7 +99,6 @@ class CacheManager {
         let allKeys = userDefaults.dictionaryRepresentation().keys
         let cacheKeys = allKeys.filter { $0.hasPrefix(videoInfoCacheKey) || $0.hasPrefix(transcriptionCacheKey) }
         
-        // Si on a plus d'entrées que le nombre à garder
         if cacheKeys.count > keepCount {
             let keysToRemove = Array(cacheKeys.dropFirst(keepCount))
             for key in keysToRemove {

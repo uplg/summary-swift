@@ -47,7 +47,7 @@ struct EmailSentView: View {
                 // Logo section with liquid glass
                 LiquidGlassCard(blur: 12, opacity: 0.06, cornerRadius: 18, shadowRadius: 8) {
                     VStack(spacing: 15) {
-                        Text("漫画")
+                        Text("Uplg")
                             .font(.system(size: 45, weight: .bold, design: .serif))
                             .foregroundStyle(
                                 LinearGradient(
@@ -78,13 +78,13 @@ struct EmailSentView: View {
                             .animation(.easeInOut(duration: 0.6).repeatForever(autoreverses: true), value: true)
 
                         // Title
-                        Text("Email envoyé !")
+                        Text("Email sent!")
                             .font(.system(size: 28, weight: .bold))
                             .foregroundColor(.white)
 
                         // Description
                         VStack(spacing: 15) {
-                            Text("Nous avons envoyé un lien de réinitialisation à :")
+                            Text("We have sent a reset link to:")
                                 .font(.system(size: 15))
                                 .foregroundColor(.white.opacity(0.9))
                                 .multilineTextAlignment(.center)
@@ -97,7 +97,7 @@ struct EmailSentView: View {
                                 .background(.regularMaterial)
                                 .clipShape(RoundedRectangle(cornerRadius: 8))
 
-                            Text("Vérifiez votre boîte email (et vos spams) puis suivez les instructions pour créer un nouveau mot de passe.")
+                            Text("Check your email inbox (and spam folder) then follow the instructions to create a new password.")
                                 .font(.system(size: 14))
                                 .foregroundColor(.white.opacity(0.8))
                                 .multilineTextAlignment(.center)
@@ -120,7 +120,7 @@ struct EmailSentView: View {
                             dismiss()
                         }
                     }) {
-                        Text("Retour à la connexion")
+                        Text("Back to login")
                             .font(.system(size: 18, weight: .semibold))
                             .foregroundColor(.white)
                             .frame(maxWidth: .infinity)
@@ -132,7 +132,7 @@ struct EmailSentView: View {
                     Button(action: {
                         // Implement resend functionality
                     }) {
-                        Text("Renvoyer l'email")
+                        Text("Resend email")
                             .font(.system(size: 16, weight: .medium))
                             .foregroundColor(.white.opacity(0.9))
                             .underline()

@@ -29,7 +29,7 @@ struct RegistrationSuccessView: View {
 
                 // Logo section
                 VStack(spacing: 15) {
-                    Text("漫画")
+                    Text("Uplg")
                         .font(.system(size: 50, weight: .bold, design: .serif))
                         .foregroundColor(.white.opacity(0.9))
                         .shadow(color: .black.opacity(0.2), radius: 10, x: 0, y: 5)
@@ -49,7 +49,7 @@ struct RegistrationSuccessView: View {
                     .frame(width: 80, height: 80)
 
                     // Title
-                    Text("Inscription réussie !")
+                    Text("Registration Successful!")
                         .font(.system(size: 32, weight: .bold))
                         .foregroundColor(.white)
                         .opacity(animationFinished ? 1 : 0)
@@ -57,14 +57,14 @@ struct RegistrationSuccessView: View {
 
                     // Description
                     VStack(spacing: 15) {
-                        Text("Bienvenue dans la communauté Summary !")
+                        Text("Welcome to the Summary community!")
                             .font(.system(size: 18, weight: .semibold))
                             .foregroundColor(.white)
                             .opacity(animationFinished ? 1 : 0)
                             .animation(.easeIn(duration: 0.5).delay(0.7), value: animationFinished)
 
                         VStack(spacing: 8) {
-                            Text("Un email de vérification a été envoyé à :")
+                            Text("A verification email has been sent to:")
                                 .font(.system(size: 16))
                                 .foregroundColor(.white.opacity(0.9))
                                 .multilineTextAlignment(.center)
@@ -80,7 +80,7 @@ struct RegistrationSuccessView: View {
                         .opacity(animationFinished ? 1 : 0)
                         .animation(.easeIn(duration: 0.5).delay(0.9), value: animationFinished)
 
-                        Text("Vérifiez votre boîte email et cliquez sur le lien pour activer votre compte.")
+                        Text("Check your email inbox and click the link to activate your account.")
                             .font(.system(size: 15))
                             .foregroundColor(.white.opacity(0.8))
                             .multilineTextAlignment(.center)
@@ -99,7 +99,7 @@ struct RegistrationSuccessView: View {
                         // Navigate to dashboard
                         authManager.setAuthenticated(true)
                     }) {
-                        Text("Continuer vers l'app")
+                        Text("Continue to app")
                             .font(.system(size: 18, weight: .semibold))
                             .foregroundColor(Color("JapanRed"))
                             .frame(maxWidth: .infinity)
@@ -116,7 +116,7 @@ struct RegistrationSuccessView: View {
                     Button(action: {
                         // Implement resend verification email
                     }) {
-                        Text("Renvoyer l'email de vérification")
+                        Text("Resend verification email")
                             .font(.system(size: 16, weight: .medium))
                             .foregroundColor(.white.opacity(0.9))
                             .underline()

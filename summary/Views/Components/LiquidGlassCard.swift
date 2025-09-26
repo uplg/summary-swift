@@ -2,8 +2,6 @@
 //  LiquidGlassCard.swift
 //  summary
 //
-//  Created by Assistant on 23/09/2025.
-//
 
 import SwiftUI
 

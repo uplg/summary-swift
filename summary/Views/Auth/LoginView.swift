@@ -92,7 +92,7 @@ struct LoginView: View {
 
                         // Password field
                         AppTextField(
-                            placeholder: "Mot de passe",
+                            placeholder: "Password",
                             text: $password,
                             icon: "lock.fill",
                             isSecure: true,
@@ -105,7 +105,7 @@ struct LoginView: View {
                     // Forgot password
                     HStack {
                         Spacer()
-                        Button("Mot de passe oublié ?") {
+                        Button("Forgot password?") {
                             navigateToForgotPassword = true
                         }
                         .font(.system(size: 14))
@@ -124,7 +124,7 @@ struct LoginView: View {
                                     .progressViewStyle(CircularProgressViewStyle(tint: .white))
                                     .scaleEffect(0.8)
                             } else {
-                                Text("Connexion")
+                                Text("Login")
                                     .font(.system(size: 18, weight: .semibold))
                             }
                         }
@@ -144,7 +144,7 @@ struct LoginView: View {
                             .fill(Color.white.opacity(0.3))
                             .frame(height: 1)
 
-                        Text("OU")
+                        Text("OR")
                             .font(.system(size: 12, weight: .medium))
                             .foregroundColor(.white.opacity(0.7))
                             .padding(.horizontal, 10)
@@ -167,7 +167,7 @@ struct LoginView: View {
                                     .resizable()
                                     .scaledToFit()
                                     .frame(width: 20, height: 20)
-                                Text("Continuer avec Apple")
+                                Text("Continue with Apple")
                                     .font(.system(size: 16, weight: .semibold))
                                     .foregroundColor(.white)
                             }
@@ -188,7 +188,7 @@ struct LoginView: View {
                                     .resizable()
                                     .scaledToFit()
                                     .frame(width: 20, height: 20)
-                                Text("Continuer avec Google")
+                                Text("Continue with Google")
                                     .font(.system(size: 16, weight: .semibold))
                             }
                             .foregroundColor(.black)
@@ -204,11 +204,11 @@ struct LoginView: View {
 
                     // Register link
                     HStack {
-                        Text("Pas encore de compte ?")
+                        Text("Don't have an account?")
                             .foregroundColor(.white.opacity(0.8))
                             .font(.system(size: 14))
 
-                        Button("S'inscrire") {
+                        Button("Sign up") {
                             navigateToRegister = true
                         }
                         .font(.system(size: 14, weight: .semibold))
@@ -236,7 +236,7 @@ struct LoginView: View {
             EmailSentView(email: resetEmail)
                 .navigationBarBackButtonHidden(true)
         }
-        .alert("Erreur", isPresented: $showingAlert) {
+        .alert("Error", isPresented: $showingAlert) {
             Button("OK", role: .cancel) { }
         } message: {
             Text(alertMessage)
@@ -253,7 +253,7 @@ struct LoginView: View {
             if email.contains("@") && !password.isEmpty {
                 authManager.setAuthenticated(true)
             } else {
-                alertMessage = "Email ou mot de passe invalide"
+                alertMessage = "Invalid email or password"
                 showingAlert = true
             }
         }

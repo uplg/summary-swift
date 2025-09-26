@@ -2,8 +2,6 @@
 //  ModelStatusService.swift
 //  summary
 //
-//  Created by Assistant on 23/09/2025.
-//
 
 import Foundation
 import Combine
@@ -20,19 +18,19 @@ class ModelStatusService: ObservableObject {
     
     var statusMessage: String {
         if allModelsReady {
-            return "Tous les modèles sont prêts"
+            return "All models are ready"
         }
         
         var messages: [String] = []
         
         switch gemmaStatus {
         case .notLoaded:
-            messages.append("Gemma: Non chargé")
+            messages.append("Gemma: Not loaded")
         case .downloading:
             let percentage = Int(gemmaDownloadProgress * 100)
-            messages.append("Gemma: Téléchargement \(percentage)%")
+            messages.append("Gemma: Downloading \(percentage)%")
         case .loading:
-            messages.append("Gemma: Chargement...")
+            messages.append("Gemma: Loading...")
         case .loaded:
             messages.append("Gemma: ✅")
         case .error(let message):
@@ -41,11 +39,11 @@ class ModelStatusService: ObservableObject {
         
         switch whisperKitStatus {
         case .notLoaded:
-            messages.append("WhisperKit: Non initialisé")
+            messages.append("WhisperKit: Not initialized")
         case .downloading:
-            messages.append("WhisperKit: Téléchargement...")
+            messages.append("WhisperKit: Downloading...")
         case .loading:
-            messages.append("WhisperKit: Initialisation...")
+            messages.append("WhisperKit: Initializing...")
         case .loaded:
             messages.append("WhisperKit: ✅")
         case .error(let message):

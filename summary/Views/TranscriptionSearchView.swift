@@ -2,8 +2,6 @@
 //  TranscriptionSearchView.swift
 //  summary
 //
-//  Created by Assistant on 23/09/2025.
-//
 
 import SwiftUI
 import SwiftData
@@ -18,7 +16,7 @@ struct TranscriptionSearchView: View {
     
     var body: some View {
         ZStack {
-            // Contenu principal
+            // Main content
             if searchText.isEmpty {
                 EmptySearchView()
             } else if searchResults.isEmpty && !searchText.isEmpty {
@@ -33,9 +31,9 @@ struct TranscriptionSearchView: View {
                 )
             }
         }
-        .navigationTitle("Recherche")
+        .navigationTitle("Search")
         .navigationBarTitleDisplayMode(.large)
-        .searchable(text: $searchText, prompt: "Rechercher dans les transcriptions...")
+        .searchable(text: $searchText, prompt: "Search in transcriptions...")
         .sheet(item: $selectedTranscription) { transcription in
             TranscriptionDetailView(transcription: transcription)
         }
@@ -58,7 +56,6 @@ struct TranscriptionSearchView: View {
         var results: [SearchResult] = []
         
         for transcription in allTranscriptions {
-            // Recherche dans le titre
             if transcription.videoTitle.lowercased().contains(query) {
                 results.append(SearchResult(
                     transcription: transcription,
@@ -68,7 +65,6 @@ struct TranscriptionSearchView: View {
                 ))
             }
             
-            // Recherche dans le résumé
             if transcription.summary.lowercased().contains(query) {
                 let context = extractContext(from: transcription.summary, query: query)
                 results.append(SearchResult(
@@ -79,7 +75,6 @@ struct TranscriptionSearchView: View {
                 ))
             }
             
-            // Recherche dans la transcription
             if transcription.transcriptionText.lowercased().contains(query) {
                 let context = extractContext(from: transcription.transcriptionText, query: query)
                 results.append(SearchResult(
@@ -91,7 +86,6 @@ struct TranscriptionSearchView: View {
             }
         }
         
-        // Supprimer les doublons et trier par pertinence
         searchResults = Array(Set(results)).sorted { $0.matchType.priority < $1.matchType.priority }
     }
     
@@ -132,8 +126,8 @@ struct SearchResult: Hashable, Identifiable {
         
         var displayName: String {
             switch self {
-            case .title: return "Titre"
-            case .summary: return "Résumé"
+            case .title: return "Title"
+            case .summary: return "Summary"
             case .transcription: return "Transcription"
             }
         }
@@ -166,12 +160,12 @@ struct EmptySearchView: View {
                 .font(.system(size: 60))
                 .foregroundColor(.gray)
             
-            Text("Rechercher dans vos transcriptions")
+            Text("Search in your transcriptions")
                 .font(.title2)
                 .fontWeight(.semibold)
                 .foregroundColor(.primary)
             
-            Text("Tapez un mot-clé pour rechercher dans les titres, résumés et transcriptions")
+            Text("Type a keyword to search in titles, summaries and transcriptions")
                 .font(.body)
                 .foregroundColor(.secondary)
                 .multilineTextAlignment(.center)
@@ -190,12 +184,12 @@ struct NoResultsView: View {
                 .font(.system(size: 60))
                 .foregroundColor(.gray)
             
-            Text("Aucun résultat")
+            Text("No results")
                 .font(.title2)
                 .fontWeight(.semibold)
                 .foregroundColor(.primary)
-            
-            Text("Aucune transcription ne contient \"\(searchText)\"")
+
+            Text("No transcription contains \"\(searchText)\"")
                 .font(.body)
                 .foregroundColor(.secondary)
                 .multilineTextAlignment(.center)
@@ -229,7 +223,7 @@ struct SearchResultRow: View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
                 VStack(alignment: .leading, spacing: 4) {
-                    Text(result.transcription.videoTitle.isEmpty ? "Vidéo YouTube" : result.transcription.videoTitle)
+                    Text(result.transcription.videoTitle.isEmpty ? "YouTube Video" : result.transcription.videoTitle)
                         .font(.headline)
                         .lineLimit(2)
                     
@@ -238,7 +232,7 @@ struct SearchResultRow: View {
                             .foregroundColor(.blue)
                             .font(.caption)
                         
-                        Text("Trouvé dans: \(result.matchType.displayName)")
+                        Text("Found in: \(result.matchType.displayName)")
                             .font(.caption)
                             .foregroundColor(.blue)
                     }

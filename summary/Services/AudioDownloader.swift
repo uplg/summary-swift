@@ -2,8 +2,6 @@
 //  AudioDownloader.swift
 //  summary
 //
-//  Created by Assistant on 25/09/2025.
-//
 
 import Foundation
 import Combine
@@ -20,15 +18,15 @@ class AudioDownloader: NSObject, ObservableObject {
         var errorDescription: String? {
             switch self {
             case .invalidURL:
-                return "URL audio invalide"
+                return "Invalid audio URL"
             case .networkError(let error):
-                return "Erreur de téléchargement: \(error.localizedDescription)"
+                return "Download error: \(error.localizedDescription)"
             case .fileSystemError(let error):
-                return "Erreur de fichier: \(error.localizedDescription)"
+                return "File error: \(error.localizedDescription)"
             case .downloadCancelled:
-                return "Téléchargement annulé"
+                return "Download cancelled"
             case .noData:
-                return "Aucune donnée reçue"
+                return "No data received"
             }
         }
     }
@@ -52,11 +50,10 @@ class AudioDownloader: NSObject, ObservableObject {
     private lazy var urlSession: URLSession = {
         let config = URLSessionConfiguration.default
         config.timeoutIntervalForRequest = 30
-        config.timeoutIntervalForResource = 300 // 5 minutes
+        config.timeoutIntervalForResource = 300
         return URLSession(configuration: config, delegate: self, delegateQueue: nil)
     }()
     
-    /// Télécharge un fichier audio depuis une URL
     func downloadAudio(from urlString: String, to destinationURL: URL) async throws -> URL {
         guard let url = URL(string: urlString) else {
             throw DownloadError.invalidURL
@@ -85,16 +82,13 @@ class AudioDownloader: NSObject, ObservableObject {
                 }
                 
                 do {
-                    // Créer le répertoire de destination si nécessaire
                     let destinationDirectory = destinationURL.deletingLastPathComponent()
                     try FileManager.default.createDirectory(at: destinationDirectory, withIntermediateDirectories: true)
                     
-                    // Supprimer le fichier existant s'il y en a un
                     if FileManager.default.fileExists(atPath: destinationURL.path) {
                         try FileManager.default.removeItem(at: destinationURL)
                     }
                     
-                    // Déplacer le fichier temporaire vers la destination finale
                     try FileManager.default.moveItem(at: tempURL, to: destinationURL)
                     
                     continuation.resume(returning: destinationURL)
@@ -107,7 +101,6 @@ class AudioDownloader: NSObject, ObservableObject {
         }
     }
     
-    /// Annule le téléchargement en cours
     func cancelDownload() {
         downloadTask?.cancel()
         downloadTask = nil
@@ -118,9 +111,7 @@ class AudioDownloader: NSObject, ObservableObject {
         }
     }
     
-    /// Génère un nom de fichier unique pour l'audio
     func generateAudioFileName(for videoTitle: String) -> String {
-        // Nettoyer le titre pour le nom de fichier
         let cleanTitle = videoTitle
             .replacingOccurrences(of: "[^a-zA-Z0-9\\s-_]", with: "", options: .regularExpression)
             .trimmingCharacters(in: .whitespacesAndNewlines)
@@ -132,7 +123,6 @@ class AudioDownloader: NSObject, ObservableObject {
         return fileName
     }
     
-    /// Obtient l'URL du répertoire de téléchargement
     func getDownloadsDirectory() throws -> URL {
         let documentsDirectory = try FileManager.default.url(
             for: .documentDirectory,
@@ -143,7 +133,6 @@ class AudioDownloader: NSObject, ObservableObject {
         
         let downloadsDirectory = documentsDirectory.appendingPathComponent("Downloads")
         
-        // Créer le répertoire s'il n'existe pas
         if !FileManager.default.fileExists(atPath: downloadsDirectory.path) {
             try FileManager.default.createDirectory(at: downloadsDirectory, withIntermediateDirectories: true)
         }
@@ -151,12 +140,10 @@ class AudioDownloader: NSObject, ObservableObject {
         return downloadsDirectory
     }
     
-    /// Vérifie si un fichier audio existe déjà
     func audioFileExists(at url: URL) -> Bool {
         return FileManager.default.fileExists(atPath: url.path)
     }
     
-    /// Obtient la taille d'un fichier
     func getFileSize(at url: URL) -> Int64? {
         do {
             let attributes = try FileManager.default.attributesOfItem(atPath: url.path)
@@ -166,7 +153,6 @@ class AudioDownloader: NSObject, ObservableObject {
         }
     }
     
-    /// Supprime un fichier audio
     func deleteAudioFile(at url: URL) throws {
         try FileManager.default.removeItem(at: url)
     }
@@ -188,7 +174,6 @@ extension AudioDownloader: URLSessionDownloadDelegate {
     }
     
     func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
-        // Cette méthode est gérée dans la completion du downloadTask
     }
     
     func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {

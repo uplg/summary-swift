@@ -21,7 +21,7 @@ struct YouTubeHomeView: View {
                 // URL Input Section
                 VStack(spacing: 20) {
                     VStack(alignment: .leading, spacing: 8) {
-                        Text("URL de la vidéo YouTube")
+                        Text("YouTube Video URL")
                             .font(.headline)
                             .foregroundColor(.primary)
                         
@@ -39,7 +39,7 @@ struct YouTubeHomeView: View {
                                 Image(systemName: "waveform.and.mic")
                             }
                             
-                            Text(processor.isProcessing ? "Traitement en cours..." : "Transcrire la vidéo")
+                            Text(processor.isProcessing ? "Processing..." : "Transcribe Video")
                                 .fontWeight(.semibold)
                         }
                         .frame(maxWidth: .infinity)
@@ -80,28 +80,28 @@ struct YouTubeHomeView: View {
                 
                 // Instructions
                 VStack(alignment: .leading, spacing: 12) {
-                    Text("Comment ça marche :")
+                    Text("How it works:")
                         .font(.headline)
                         .padding(.bottom, 8)
                     
                     InstructionRow(
                         icon: "1.circle.fill",
-                        text: "Collez l'URL d'une vidéo YouTube"
+                        text: "Paste a YouTube video URL"
                     )
                     
                     InstructionRow(
                         icon: "2.circle.fill",
-                        text: "L'audio est extrait et traité localement"
+                        text: "Audio is extracted and processed locally"
                     )
                     
                     InstructionRow(
                         icon: "3.circle.fill",
-                        text: "MLX Whisper génère la transcription"
+                        text: "MLX Whisper generates the transcription"
                     )
                     
                     InstructionRow(
                         icon: "4.circle.fill",
-                        text: "Un résumé automatique est créé"
+                        text: "An automatic summary is created"
                     )
                 }
                 .padding(.horizontal, 20)
@@ -115,9 +115,9 @@ struct YouTubeHomeView: View {
                 Spacer(minLength: 50)
             }
         }
-        .navigationTitle("Accueil")
+        .navigationTitle("Home")
         .navigationBarTitleDisplayMode(.inline)
-        .alert("Erreur", isPresented: $showingAlert) {
+        .alert("Error", isPresented: $showingAlert) {
             Button("OK") { }
         } message: {
             Text(alertMessage)
@@ -126,7 +126,7 @@ struct YouTubeHomeView: View {
     
     private func processVideo() {
         guard isValidYouTubeURL(youtubeURL) else {
-            alertMessage = "Veuillez entrer une URL YouTube valide"
+            alertMessage = "Please enter a valid YouTube URL"
             showingAlert = true
             return
         }
@@ -134,16 +134,16 @@ struct YouTubeHomeView: View {
         Task {
             await processor.processYouTubeURL(youtubeURL)
             
-            // Vérifier s'il y a eu une erreur
+            // Check if there was an error
             if let errorMessage = processor.errorMessage {
-                alertMessage = "Erreur lors du traitement : \(errorMessage)"
+                alertMessage = "Processing error: \(errorMessage)"
                 showingAlert = true
             } else {
-                // Réinitialiser le champ URL
+                // Reset URL field
                 youtubeURL = ""
                 
-                // Afficher un message de succès
-                alertMessage = "Transcription terminée avec succès !"
+                // Show success message
+                alertMessage = "Transcription completed successfully!"
                 showingAlert = true
             }
         }

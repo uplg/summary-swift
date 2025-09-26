@@ -2,8 +2,6 @@
 //  MainTabView.swift
 //  summary
 //
-//  Created by Assistant on 23/09/2025.
-//
 
 import SwiftUI
 import SwiftData
@@ -23,7 +21,6 @@ struct MainTabView: View {
                 NavigationStack {
                     if let processor = youtubeProcessor {
                         VStack(spacing: 0) {
-                            // Indicateur de statut des modèles
                             ModelStatusIndicator(statusService: processor.modelStatusService)
                                 .padding(.horizontal)
                                 .padding(.top, 8)

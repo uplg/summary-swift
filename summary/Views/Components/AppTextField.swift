@@ -126,7 +126,7 @@ struct AppTextField: View {
         )
 
         AppTextField(
-            placeholder: "Mot de passe",
+            placeholder: "Password",
             text: .constant(""),
             icon: "lock.fill",
             isSecure: true,
@@ -135,7 +135,7 @@ struct AppTextField: View {
         )
 
         AppTextField(
-            placeholder: "Prénom",
+            placeholder: "First name",
             text: .constant(""),
             icon: "person.fill"
         )

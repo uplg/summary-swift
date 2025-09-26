@@ -2,8 +2,6 @@
 //  TranscriptionHistoryView.swift
 //  summary
 //
-//  Created by Assistant on 23/09/2025.
-//
 
 import SwiftUI
 import SwiftData
@@ -28,7 +26,7 @@ struct TranscriptionHistoryView: View {
                                     selectedTranscription = transcription
                                 }
                                 .swipeActions(edge: .trailing, allowsFullSwipe: false) {
-                                    Button("Supprimer", role: .destructive) {
+                                    Button("Delete", role: .destructive) {
                                         deleteTranscription(transcription)
                                     }
                                 }
@@ -37,7 +35,7 @@ struct TranscriptionHistoryView: View {
                     .listStyle(PlainListStyle())
                 }
             }
-            .navigationTitle("Historique")
+            .navigationTitle("History")
             .navigationBarTitleDisplayMode(.large)
             .sheet(item: $selectedTranscription) { transcription in
                 TranscriptionDetailView(transcription: transcription)
@@ -60,12 +58,12 @@ struct EmptyHistoryView: View {
                 .font(.system(size: 60))
                 .foregroundColor(.gray)
             
-            Text("Aucune transcription")
+            Text("No transcriptions")
                 .font(.title2)
                 .fontWeight(.semibold)
                 .foregroundColor(.primary)
             
-            Text("Vos transcriptions de vidéos YouTube apparaîtront ici")
+            Text("Your YouTube video transcriptions will appear here")
                 .font(.body)
                 .foregroundColor(.secondary)
                 .multilineTextAlignment(.center)
@@ -83,7 +81,7 @@ struct TranscriptionRowView: View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
                 VStack(alignment: .leading, spacing: 4) {
-                    Text(transcription.videoTitle.isEmpty ? "Vidéo YouTube" : transcription.videoTitle)
+                    Text(transcription.videoTitle.isEmpty ? "YouTube Video" : transcription.videoTitle)
                         .font(.headline)
                         .lineLimit(2)
                     
@@ -122,7 +120,7 @@ struct TranscriptionRowView: View {
                 Spacer()
                 
                 if !transcription.transcriptionText.isEmpty {
-                    Text("\(transcription.transcriptionText.count) caractères")
+                    Text("\(transcription.transcriptionText.count) characters")
                         .font(.caption)
                         .foregroundColor(.secondary)
                 }
@@ -169,17 +167,17 @@ struct StatusBadge: View {
     private var statusText: String {
         switch status {
         case .pending:
-            return "En attente"
+            return "Pending"
         case .downloading:
-            return "Téléchargement"
+            return "Downloading"
         case .transcribing:
-            return "Transcription"
+            return "Transcribing"
         case .summarizing:
-            return "Résumé"
+            return "Summarizing"
         case .completed:
-            return "Terminé"
+            return "Completed"
         case .failed:
-            return "Échec"
+            return "Failed"
         }
     }
 }

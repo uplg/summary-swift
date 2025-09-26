@@ -18,7 +18,7 @@ struct RegisterView: View {
     @State private var isLoading = false
     @State private var showingAlert = false
     @State private var alertMessage = ""
-    @State private var alertTitle = "Erreur"
+    @State private var alertTitle = "Error"
     @State private var navigateToRegistrationSuccess = false
     @Environment(\.dismiss) private var dismiss
 
@@ -75,7 +75,7 @@ struct RegisterView: View {
                                     .foregroundColor(.white.opacity(0.9))
                                     .tracking(4)
 
-                                Text("Créer un compte")
+                                Text("Create an account")
                                     .font(.system(size: 16, weight: .medium))
                                     .foregroundColor(.white.opacity(0.9))
                                     .padding(.top, 5)
@@ -90,20 +90,20 @@ struct RegisterView: View {
                             // First name and Last name fields on same line
                             HStack(spacing: 10) {
                                 AppTextField(
-                                    placeholder: "Prénom",
+                                    placeholder: "First name",
                                     text: $firstName,
                                     icon: "person.fill"
                                 )
 
                                 AppTextField(
-                                    placeholder: "Nom",
+                                    placeholder: "Last name",
                                     text: $lastName
                                 )
                             }
 
                             // Username field
                             AppTextField(
-                                placeholder: "Nom d'utilisateur",
+                                placeholder: "Username",
                                 text: $username,
                                 icon: "at",
                                 autocapitalization: .never
@@ -120,7 +120,7 @@ struct RegisterView: View {
 
                             // Password field
                             AppTextField(
-                                placeholder: "Mot de passe",
+                                placeholder: "Password",
                                 text: $password,
                                 icon: "lock.fill",
                                 isSecure: true,
@@ -130,7 +130,7 @@ struct RegisterView: View {
 
                             // Confirm Password field
                             AppTextField(
-                                placeholder: "Confirmer mot de passe",
+                                placeholder: "Confirm password",
                                 text: $confirmPassword,
                                 icon: "lock.fill",
                                 isSecure: true,
@@ -151,11 +151,11 @@ struct RegisterView: View {
                                     .font(.system(size: 20))
                             }
 
-                            Text("J'accepte les ")
+                            Text("I accept the ")
                                 .font(.system(size: 13))
                                 .foregroundColor(.white.opacity(0.8))
                             +
-                            Text("conditions d'utilisation")
+                            Text("terms of use")
                                 .font(.system(size: 13, weight: .semibold))
                                 .foregroundColor(.white)
                                 .underline()
@@ -174,7 +174,7 @@ struct RegisterView: View {
                                         .progressViewStyle(CircularProgressViewStyle(tint: .white))
                                         .scaleEffect(0.8)
                                 } else {
-                                    Text("S'inscrire")
+                                    Text("Sign up")
                                         .font(.system(size: 18, weight: .semibold))
                                 }
                             }
@@ -187,11 +187,11 @@ struct RegisterView: View {
 
                         // Login link
                         HStack {
-                            Text("Déjà un compte ?")
+                            Text("Already have an account?")
                                 .foregroundColor(.white.opacity(0.8))
                                 .font(.system(size: 14))
 
-                            Button("Se connecter") {
+                            Button("Sign in") {
                                 dismiss()
                             }
                             .font(.system(size: 14, weight: .semibold))
@@ -241,11 +241,11 @@ struct RegisterView: View {
                 // Navigate directly to success page without alert
                 navigateToRegistrationSuccess = true
             } else {
-                alertTitle = "Erreur"
+                alertTitle = "Error"
                 if !acceptTerms {
-                    alertMessage = "Veuillez accepter les conditions d'utilisation"
+                    alertMessage = "Please accept the terms of use"
                 } else {
-                    alertMessage = "Veuillez remplir tous les champs correctement"
+                    alertMessage = "Please fill in all fields correctly"
                 }
                 showingAlert = true
             }

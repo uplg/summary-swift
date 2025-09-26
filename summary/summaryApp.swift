@@ -29,11 +29,11 @@ struct summaryApp: App {
     var body: some Scene {
         WindowGroup {
             Group {
-                if authManager.isAuthenticated {
+                //if authManager.isAuthenticated {
                     MainTabView()
-                } else {
-                    HomeView()
-                }
+                //} else {
+                //    HomeView()
+                //}
             }
             .id(authManager.isAuthenticated)
             .environment(authManager)
