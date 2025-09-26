@@ -12,6 +12,7 @@ struct TranscriptionHistoryView: View {
     private var transcriptions: [VideoTranscription]
     
     @State private var selectedTranscription: VideoTranscription?
+    @State private var isEditMode = false
     
     var body: some View {
         NavigationStack {
@@ -23,20 +24,40 @@ struct TranscriptionHistoryView: View {
                         ForEach(transcriptions) { transcription in
                             TranscriptionRowView(transcription: transcription)
                                 .onTapGesture {
-                                    selectedTranscription = transcription
+                                    if !isEditMode {
+                                        selectedTranscription = transcription
+                                    }
                                 }
-                                .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                                    Button("Delete", role: .destructive) {
+                                        deleteTranscription(transcription)
+                                    }
+                                }
+                                .contextMenu {
                                     Button("Delete", role: .destructive) {
                                         deleteTranscription(transcription)
                                     }
                                 }
                         }
+                        .onDelete(perform: deleteTranscriptions)
                     }
                     .listStyle(PlainListStyle())
+                    .environment(\.editMode, isEditMode ? .constant(.active) : .constant(.inactive))
                 }
             }
             .navigationTitle("History")
             .navigationBarTitleDisplayMode(.large)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    if !transcriptions.isEmpty {
+                        Button(isEditMode ? "Done" : "Edit") {
+                            withAnimation {
+                                isEditMode.toggle()
+                            }
+                        }
+                    }
+                }
+            }
             .sheet(item: $selectedTranscription) { transcription in
                 TranscriptionDetailView(transcription: transcription)
             }
@@ -46,6 +67,15 @@ struct TranscriptionHistoryView: View {
     private func deleteTranscription(_ transcription: VideoTranscription) {
         withAnimation {
             modelContext.delete(transcription)
+            try? modelContext.save()
+        }
+    }
+    
+    private func deleteTranscriptions(at offsets: IndexSet) {
+        withAnimation {
+            for index in offsets {
+                modelContext.delete(transcriptions[index])
+            }
             try? modelContext.save()
         }
     }

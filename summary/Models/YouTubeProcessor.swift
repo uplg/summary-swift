@@ -150,6 +150,8 @@ class YouTubeProcessor: ObservableObject {
                 thumbnailURL: videoInfo.thumbnailURL
             )
             
+            transcription.processingStatus = .completed
+            
             modelContext.insert(transcription)
             try modelContext.save()
             
@@ -164,7 +166,7 @@ class YouTubeProcessor: ObservableObject {
         }
         
         isProcessing = false
-        currentStatus = "En attente..."
+        currentStatus = "Waiting..."
         progress = 0.0
     }
     
