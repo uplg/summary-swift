@@ -54,7 +54,7 @@ class YouTubeExtractor {
         let htmlContent = try await fetchHTMLContent(from: url)
         
         // Extraire les informations de la vidéo
-        let videoInfo = try parseVideoInfo(from: htmlContent)
+        let videoInfo = try parseVideoInfo(from: htmlContent, base:youtubeURL)
         
         return videoInfo
     }
@@ -122,7 +122,7 @@ class YouTubeExtractor {
     }
     
     /// Parse les informations de la vidéo depuis le HTML
-    private func parseVideoInfo(from htmlContent: String) throws -> VideoInfo {
+    private func parseVideoInfo(from htmlContent: String, base youtubeURL: String) throws -> VideoInfo {
         // Extraire le titre
         let title = extractTitle(from: htmlContent) ?? "Vidéo YouTube"
         
@@ -136,7 +136,7 @@ class YouTubeExtractor {
         let uploader = extractUploader(from: htmlContent)
         
         // Extraire l'URL du flux audio
-        guard let audioStreamURL = extractAudioStreamURL(from: htmlContent) else {
+        guard let audioStreamURL = extractAudioStreamURL(from: htmlContent, base: youtubeURL) else {
             throw ExtractionError.noAudioStreamFound
         }
         
@@ -210,17 +210,8 @@ class YouTubeExtractor {
         return nil
     }
     
-    /// Extrait l'URL du flux audio (version simplifiée pour démo)
-    private func extractAudioStreamURL(from htmlContent: String) -> String? {
-        // IMPORTANT: Cette implémentation est simplifiée pour la démo
-        // En réalité, YouTube utilise des signatures complexes et des tokens
-        // qui changent régulièrement. Une vraie implémentation nécessiterait
-        // de décrypter les signatures JavaScript de YouTube.
-        
-        // Pour l'instant, on retourne une URL de démo
-        // Dans une vraie app, il faudrait utiliser une API tierce ou
-        // implémenter le décryptage complet des signatures YouTube
-        
-        return "https://themamaship.com/music/Catalog/Stand%20By%20Me%20-%20Ben%20E.%20King.mp3"
+    /// Extrait l'URL du flux audio
+    private func extractAudioStreamURL(from htmlContent: String, base youtubeURL: String) -> String? {
+        return "http://localhost:8000/extract-audio?url="+youtubeURL
     }
 }
