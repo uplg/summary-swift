@@ -21,15 +21,26 @@ class YouTubeProcessor: ObservableObject {
     private let modelContext: ModelContext
     private let youtubeExtractor = YouTubeExtractor()
     private let audioDownloader = AudioDownloader()
-    private let whisperKitService = WhisperKitTranscriptionService()
-    private let summaryService = MLXSummaryService()
+    private let statusService = ModelStatusService()
+    private let whisperKitService: WhisperKitTranscriptionService
+    private let summaryService: MLXSummaryService
     private var cancellables = Set<AnyCancellable>()
     
     // Cache persistant pour les résultats par URL
     private let cacheManager = CacheManager.shared
     
+    // Exposer le service de statut pour l'interface utilisateur
+    var modelStatusService: ModelStatusService {
+        return statusService
+    }
+    
     init(modelContext: ModelContext) {
         self.modelContext = modelContext
+        
+        // Initialiser les services avec le service de statut partagé
+        self.whisperKitService = WhisperKitTranscriptionService(statusService: statusService)
+        self.summaryService = MLXSummaryService(statusService: statusService)
+        
         // Nettoyer automatiquement le cache ancien au démarrage
         cacheManager.cleanOldCache()
         

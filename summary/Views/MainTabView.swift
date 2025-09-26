@@ -22,8 +22,15 @@ struct MainTabView: View {
             Tab("Home", systemImage: "play.rectangle.fill", value: .home) {
                 NavigationStack {
                     if let processor = youtubeProcessor {
-                        YouTubeHomeView()
-                            .environmentObject(processor)
+                        VStack(spacing: 0) {
+                            // Indicateur de statut des modèles
+                            ModelStatusIndicator(statusService: processor.modelStatusService)
+                                .padding(.horizontal)
+                                .padding(.top, 8)
+                            
+                            YouTubeHomeView()
+                                .environmentObject(processor)
+                        }
                     } else {
                         ProgressView("Initialisation...")
                     }

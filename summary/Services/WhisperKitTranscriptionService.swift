@@ -17,8 +17,10 @@ class WhisperKitTranscriptionService: ObservableObject {
     @Published var errorMessage: String? = nil
     
     private var whisperKit: WhisperKit?
+    private let statusService: ModelStatusService
     
-    init() {
+    init(statusService: ModelStatusService) {
+        self.statusService = statusService
         Task {
             await initializeWhisperKit()
         }
@@ -26,12 +28,17 @@ class WhisperKitTranscriptionService: ObservableObject {
     
     private func initializeWhisperKit() async {
         do {
+            statusService.updateWhisperKitStatus(.loading)
+            
             // Initialize WhisperKit with default configuration
             whisperKit = try await WhisperKit()
             print("✅ WhisperKit initialized successfully")
+            statusService.updateWhisperKitStatus(.loaded)
         } catch {
             print("❌ Failed to initialize WhisperKit: \(error)")
-            errorMessage = "Erreur d'initialisation de WhisperKit: \(error.localizedDescription)"
+            let errorMessage = "Erreur d'initialisation de WhisperKit: \(error.localizedDescription)"
+            self.errorMessage = errorMessage
+            statusService.updateWhisperKitStatus(.error(errorMessage))
         }
     }
     

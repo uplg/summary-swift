@@ -16,8 +16,10 @@ class MLXSummaryService: ObservableObject {
     private var modelContainer: ModelContainer?
     private let modelConfiguration = LLMRegistry.gemma3nE2B4bit
     private let hub = HubApi(downloadBase: URL.downloadsDirectory.appending(path: "huggingface"))
+    private let statusService: ModelStatusService
     
-    init() {
+    init(statusService: ModelStatusService) {
+        self.statusService = statusService
         Task {
             await loadModel()
         }
@@ -104,6 +106,7 @@ class MLXSummaryService: ObservableObject {
         do {
             downloadProgress = Progress(totalUnitCount: 0)
             isModelLoaded = false
+            statusService.updateGemmaStatus(.downloading)
             
             // Load the model with the appropriate factory
             modelContainer = try await modelFactory.loadContainer(
@@ -113,13 +116,21 @@ class MLXSummaryService: ObservableObject {
                 Task { @MainActor in
                     print(progress.fractionCompleted)
                     self.downloadProgress = progress
+                    self.statusService.updateGemmaDownloadProgress(progress.fractionCompleted)
+                    
+                    if progress.fractionCompleted >= 1.0 {
+                        self.statusService.updateGemmaStatus(.loading)
+                    }
                 }
             }
             
             self.isModelLoaded = true
             self.downloadProgress = Progress(totalUnitCount: 1)
+            statusService.updateGemmaStatus(.loaded)
         } catch {
-            lastError = SummaryError.generationFailed("Erreur Gemma: \(error.localizedDescription)")
+            let errorMessage = "Erreur Gemma: \(error.localizedDescription)"
+            lastError = SummaryError.generationFailed(errorMessage)
+            statusService.updateGemmaStatus(.error(errorMessage))
         }
 
     }
