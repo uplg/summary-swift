@@ -24,6 +24,7 @@ struct MainTabView: View {
                             ModelStatusIndicator(statusService: processor.modelStatusService)
                                 .padding(.horizontal)
                                 .padding(.top, 8)
+                                .padding(.bottom, 8)
                             
                             YouTubeHomeView()
                                 .environmentObject(processor)

@@ -49,6 +49,7 @@ A powerful iOS application that automatically transcribes and summarizes YouTube
   <img src="screenshots/home-loading.png" alt="Home Screen" />
   <img src="screenshots/history-view.png" alt="History View"/>
   <img src="screenshots/history-detail.png" alt="Detail View"/>
+  <img src="screenshots/ios-ui.png" alt="iOS UI"/>
 </div>
 
 ## 🔧 Installation & Setup
@@ -85,6 +86,7 @@ open summary.xcodeproj
 
 - if you have an "old" iPhone (< 15), you might need to use macOS (Designed for iPad)
 - it may work on iPhones / iPad but it's not fully tested as I don't have a recent Apple device except a Mac, UI follows most recent guidelines and works great but memory issues while loading Gemma 3n on an iPhone 13, backend URL needs to be changed as it is hardcoded to localhost:8000.
+- Also, iOS simulator don't handle metal fully, so you might need to use a real device to test the app.
 
 ## 🎯 Usage
 
