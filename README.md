@@ -81,11 +81,10 @@ cd summary-swift
 open summary.xcodeproj
 ```
 
-3. Build and run:
+3. Build and run using XCode
 
-```bash
-xcodebuild -project summary.xcodeproj -scheme summary -destination 'platform=iOS Simulator,name=iPhone 17,OS=latest' build
-```
+- if you have an "old" iPhone (< 15), you might need to use macOS (Designed for iPad)
+- it may work on iPhones / iPad but it's not fully tested as I don't have a recent Apple device except a Mac, UI follows most recent guidelines and works great but memory issues while loading Gemma 3n on an iPhone 13, backend URL needs to be changed as it is hardcoded to localhost:8000.
 
 ## 🎯 Usage
 
