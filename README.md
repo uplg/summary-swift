@@ -43,15 +43,6 @@ A powerful iOS application that automatically transcribes and summarizes YouTube
 - **Observable Objects**: Reactive state management
 - **Dependency Injection**: Modular and testable code structure
 
-## 📱 Screenshots
-
-<div>
-  <img src="screenshots/home-loading.png" alt="Home Screen" />
-  <img src="screenshots/history-view.png" alt="History View"/>
-  <img src="screenshots/history-detail.png" alt="Detail View"/>
-  <img src="screenshots/ios-ui.png" alt="iOS UI"/>
-</div>
-
 ## 🔧 Installation & Setup
 
 ### Prerequisites
@@ -116,6 +107,14 @@ The app follows this processing pipeline:
 - **No Data Collection**: No personal data is sent to external servers
 - **Secure Storage**: Transcriptions stored locally using SwiftData
 - **Cache Management**: Automatic cleanup of temporary files
+
+## 📱 Screenshots
+
+<div style="display: grid; grid-template-columns: repeat(3, 1fr); justify-items: center;">
+  <img src="screenshots/ios-ui.png" alt="iOS UI" height="300"/>
+  <img src="screenshots/home-loading.png" alt="Home Screen" height="300"/>
+  <img src="screenshots/history-detail.png" alt="Detail View" height="300"/>
+</div>
 
 ## 🚧 Development Status
 
